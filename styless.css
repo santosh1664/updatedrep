@@ -63,7 +63,7 @@ tr:hover {
     background-color: var(--secondary-color);
 }
 
-/* nav {
+ /* nav {
   background-color: #007bb5;
   color: #A0E9FF;
   
@@ -73,6 +73,25 @@ tr:hover {
   align-items: center;
   justify-content: center;
 } */
+/* nav {
+  background-color: #53d1d7;
+  color: #A0E9FF;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
+ul {
+  list-style-type: none;
+  height: 45px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  
+}  */
+
 nav {
   background-color: #53d1d7;
   color: #A0E9FF;
@@ -81,6 +100,16 @@ nav {
   align-items: center;
   justify-content: center;
 } 
+/* nav{
+  background-color: #007bb5;
+  color: #A0E9FF;
+  
+  padding: 0px 0px;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
 ul {
   list-style-type: none;
   height: 45px;
