@@ -63,7 +63,7 @@ tr:hover {
     background-color: var(--secondary-color);
 }
 
-nav {
+/* nav {
   background-color: #007bb5;
   color: #A0E9FF;
   
@@ -72,7 +72,15 @@ nav {
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
+nav {
+  background-color: #53d1d7;
+  color: #A0E9FF;
+  margin-bottom: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} 
 ul {
   list-style-type: none;
   height: 45px;
