@@ -120,6 +120,65 @@ a:hover {
     text-decoration: underline;
 }
 
+/* Create four equal columns that floats next to each other */
+.column1 {
+    float: left;
+    width: 50%;
+    padding:10px;
+    height: 400px;
+    margin: auto;
+  }
+  .column5{
+    float: left;
+    width: 50%;
+    height: 500px;
+    margin: auto;
+  }
+
+  .column2 {
+    float: left;
+    width: 100%;
+    padding:10px;
+    height: 400px; /* Should be removed. Only for demonstration */
+    margin:auto;
+  }
+  .column3 {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    height: 700px; /* Should be removed. Only for demonstration */
+  }
+  .column4 {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    height: 300px; /* Should be removed. Only for demonstration */
+  }
+
+  #baseImg1
+  {
+    padding-left:15%;
+    padding-top:2%;
+  }
+  #baseImg2
+  {
+    padding-left:5%;
+  }
+  
+  /* Clear floats after the columns */
+  .row:after {
+  contain: layout;
+    display: table;
+    clear: both;
+  }
+
+  /* Responsive layout - makes the four columns stack on top of each other instead of next to each other */
+  /* @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+    } */
+  
+
 #horizontal
 {
     height:3px;
