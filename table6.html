@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Web Accessibility</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+    <header style="position:fixed;background-color:#FFFFFF;padding-bottom:0;">
+        <h1>ICT Web Accessibility<h1>
+            <nav id="nav1" style="margin-right:40px;width:50%;justify-self:center;margin-left:25%;margin-bottom:10px;">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index2.html">Verified Sites Portal</a></li>
+                    <li><a href="Top20.html">Demo Filter tab</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index2.html">Verified Sites Portal</a></li>
+                    <li><a href="Top10.html">Top 10</a></li>
+                    <!-- <li><a href="Top20.html">Top 20</a></li> -->
+                    <!-- <li><a href="contact">Contact</a></li> -->
+                    <li><a href="table2.html">Achecker</a></li>
+                    <li><a href="table3.html">Level AA</a></li>
+                    <li><a href="table4.html">level A error rate %</a></li>
+                    <li><a href="table5.html">A checker to A</a></li>
+                    <li><a href="table6.html">A Checker to AA Checker</a></li>
+                    <li><a href="table8.html">Wave Tool</a></li>
+                </ul>
+            </nav>
+    </header>
+    <main style="padding-top:190px;">
+        <p style = "text-align:center;font-size:200%;font-weight:bold;">Table 6</p>
+    <p style = "text-align:center;font-size:150%;font-weight:200;"> Table 6 A list of the most common known accessibility problems according to 
+        AChecker tool Level AA</p>
+    <main>
+        <div id="Button1">
+            <button class="dropdown" style="width:70%;height:100px;font-size:large;font-weight:bold;margin-left:15%;">Perceivable</button>
+            <div class="contents" style="display:none; text-align:left;background-color:white;width:70%;margin-left:15%;">
+                <div id="table-container1"></div>
+            </div>
+        </div>
+        <div id="Button2">
+            <button class="dropdown" style="width:70%;height:100px;font-size:large;font-weight:bold;margin-left:15%;">Operable</button>
+            <div class="contents" style="display:none; text-align:left;background-color:white;width:70%;margin-left:15%;">
+                <div id="table-container2"></div>
+            </div>
+        </div>
+        <div id="Button3">
+            <button class="dropdown" style="width:70%;height:100px;font-size:large;font-weight:bold;margin-left:15%;">Understandable</button>
+            <div class="contents" style="display:none; text-align:left;background-color:white;width:70%;margin-left:15%;">
+                <div id="table-container3"></div>
+            </div>
+        </div>
+        <div id="Button4">
+            <button class="dropdown" style="width:70%;height:100px;font-size:large;font-weight:bold;margin-left:15%;">Robust</button>
+            <div class="contents" style="display:none; text-align:left;background-color:white;width:70%;margin-left:15%;">
+                <div id="table-container4"></div>
+            </div>
+        </div>
+    </main>
+    </main>
+    
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let limitSelect = document.getElementById('limit-select');
+            let tableContainer = document.getElementById('table-container1');
+            let tableContainer2 = document.getElementById('table-container2');
+            let tableContainer3 = document.getElementById('table-container3');
+            let tableContainer4 = document.getElementById('table-container4');
+            
+            const fetchDataAndRenderTable = async function() 
+            {
+                try{
+                    const response = await fetch('https://raw.githubusercontent.com/santosh1664/egovern/csv/csv%20Files/Table6.csv')
+                    const csv = await response.text();
+                    
+                    let rows = csv.split('\n').slice(1);
+                    rows1 = rows.slice(0, 9);
+                    rows2 = rows.slice(9, 15);
+                    rows3 = rows.slice(15, 19);
+                    rows4 = rows.slice(19, 20);
+
+                    tableContainer.innerHTML = '';
+                    tableContainer2.innerHTML = '';
+                    tableContainer3.innerHTML = '';
+                    tableContainer4.innerHTML = '';
+
+                    await renderTable(rows1, tableContainer);
+                    await renderTable(rows2, tableContainer2);
+                    await renderTable(rows3, tableContainer3);
+                    await renderTable(rows4, tableContainer4);
+                    var dropdowns = document.getElementsByClassName("dropdown");
+                    for (var a = 0; a < dropdowns.length; a++) 
+                    {
+                        dropdowns[a].addEventListener("click", function() {
+                        // Toggle the visibility of the next sibling element, which is the dropdown content
+                        var content = this.nextElementSibling;
+                        if (content.style.display === "block")
+                        {
+                            content.style.display = "none";
+                        }
+                        else
+                        {
+                            content.style.display = "block";
+                        }
+                        });
+                    }
+                }
+                catch(error)
+                {
+                    console.error('Error fetching CSV:', error);
+                }
+            };
+            const renderTable = function(rows, container) 
+            {
+                let tableHtml = '<table>';
+                tableHtml += '<thead>';
+                tableHtml += '<th style="text-align:center;">Category</th>';
+                tableHtml += '<th style="text-align:center;">Guidline #</th>';
+                tableHtml += '<th style="text-align:center;">Success Criteria</th>';
+                tableHtml += '<th style="text-align:center;">No. of errors ID(1-32)</th>';
+                tableHtml += '<th style="text-align:center;">No. of errors ID(33-64)</th>';
+                tableHtml += '<th style="text-align:center;">Total Errors</th>';
+                tableHtml += '</thead>';
+
+                rows.forEach(row => {
+                    const columns = row.split(',');
+                    tableHtml += '<tr>';    
+                    columns.forEach(column => {
+                        tableHtml += `<td>${column}</td>`;
+                    });            
+                    tableHtml += '</tr>';
+                });
+
+                tableHtml += '</table>';
+                container.innerHTML = tableHtml;
+            };
+            // Initial data fetch and table rendering
+            fetchDataAndRenderTable();
+
+            // Event listener for select element change
+            limitSelect.addEventListener('input', fetchDataAndRenderTable);
+        });
+    </script>
+    <hr id="horizontal">
+    <footer>
+        <div id="contact" align="center">
+            <h2>Contact Us</h2>
+            <p>Email: contact@example.com</p>
+            <p>Phone: +1234567890</p>
+            <p>Address: 123 Street, City, Country</p>
+                <div class="contact-icons">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-twitter"></a>
+                <a href="#" class="fa fa-google",></a>
+                <a href="#" class="fa fa-linkedin"></a>
+            </div>  
+        </div>
+            <div>
+                <p>&copy; 2024 Govt Websites. All rights reserved.</p>
+            </div>
+    </footer>
+</body>
+</html>

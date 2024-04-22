@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICT Web Accessibility</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body style="padding-top:0px;">
+
+    <header style="position:fixed;background-color:#FFFFFF;padding-bottom:0;">
+        <h1>ICT Web Accessibility<h1>
+            <nav id="nav1" style="margin-right:40px;width:50%;justify-self:center;margin-left:25%;margin-bottom:10px;">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index2.html">Verified Sites Portal</a></li>
+                    <li><a href="Top20.html">Demo Filter tab</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="index2.html">Verified Sites Portal</a></li>
+                    <li><a href="Top10.html">Top 10</a></li>
+                    <!-- <li><a href="Top20.html">Top 20</a></li> -->
+                    <!-- <li><a href="contact">Contact</a></li> -->
+                    <li><a href="table2.html">Achecker</a></li>
+                    <li><a href="table3.html">Level AA</a></li>
+                    <li><a href="table4.html">level A error rate %</a></li>
+                    <li><a href="table5.html">A checker to A</a></li>
+                    <li><a href="table6.html">A Checker to AA Checker</a></li>
+                    <li><a href="table8.html">Wave Tool</a></li>
+                </ul>
+            </nav>
+    </header>
+    <main style="padding-top:190px;">
+    <p style = "text-align:center;font-size:200%;font-weight:bold;">Table 2</p>
+    <p style = "text-align:center;font-size:150%;font-weight:200;"> Table 2 Achecker and Total Validator webpage evaluation results for all levels A, AA, and AAA</p>
+    
+        <div id="table-container" style="width:80%;margin-left:10%"></div>
+        <div id="pagination"></div>
+        <div id="navigation">
+            <button id="prevBtn" onclick="prevPage()">Previous</button>
+            <button id="nextBtn" onclick="nextPage()">Next</button>
+        </div>
+    </main>
+
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tableContainer = document.getElementById('table-container');
+            const paginationContainer = document.getElementById('pagination');
+            const navigationContainer = document.getElementById('navigation');
+            const rowsPerPage = 10; // Change this to adjust the number of rows per page
+            let currentPage = 1;
+            let headerRow = '';
+            let totalPages = 0;
+
+            const fetchDataAndRenderTable = function() {
+                fetch('https://raw.githubusercontent.com/santosh1664/egovern/csv/csv%20Files/Table2.csv')
+                    .then(response => response.text())
+                    .then(csv => {
+                        const rows = csv.split('\n').slice(2);
+                        totalPages = Math.ceil((rows.length - 1) / rowsPerPage); // Exclude header row from count
+                        let startIndex = (currentPage - 1) * rowsPerPage;
+                        let endIndex = startIndex + rowsPerPage;
+                        if (currentPage > totalPages) {
+                            currentPage = totalPages;
+                            startIndex = (currentPage - 1) * rowsPerPage;
+                            endIndex = rows.length - 1; // Exclude header row
+                        }
+                        const rowsToShow = rows.slice(startIndex, endIndex + 0); // Include header row
+                        let tableHtml = '';
+                        tableHtml = '<table>';
+                        tableHtml += '<thead>';
+                            tableHtml += '<tr>';
+                                tableHtml += '<th style="text-align:center;border-bottom:none">AChecker</th>';
+                                tableHtml += '<th style="text-align:center;border-bottom:none">Result</th>';
+                                tableHtml += '<th style="border-right:none"></th>';
+                                tableHtml += '<th style="text-align:center;border-right:none; border-left:none;">Known</th>';
+                                tableHtml += '<th style="border-left:none"></th>';
+                                tableHtml += '<th style="border-right:none"></th>';
+                                tableHtml += '<th style="text-align:center;border-right:none; border-left:none;">Likely</th>';
+                                tableHtml += '<th style="border-left:none"></th>';
+                                tableHtml += '<th style="border-right:none"></th>';
+                                tableHtml += '<th style="text-align:center;border-right:none; border-left:none;">Potential</th>';
+                                tableHtml += '<th style="border-left:none"></th>';
+                                tableHtml += '<th style="border-right:none"></th>';
+                                tableHtml += '<th style="text-align:center;border-right:none; border-left:none;">Total Validators</th>';
+                                tableHtml += '<th style="border-left:none"></th>';
+                            tableHtml += '</tr>';
+                            tableHtml += '<tr>';
+                                tableHtml += '<th style="text-align:center;border-top:none">ID</th>';
+                                tableHtml += '<th style="text-align:center;border-top:none">P/F</th>';
+                                tableHtml += '<th style="text-align:center;">A</th>';
+                                tableHtml += '<th style="text-align:center;">AA</th>';
+                                tableHtml += '<th style="text-align:center;">AAA</th>';
+                                tableHtml += '<th style="text-align:center;">A</th>';
+                                tableHtml += '<th style="text-align:center;">AA</th>';
+                                tableHtml += '<th style="text-align:center;">AAA</th>';
+                                tableHtml += '<th style="text-align:center;">A</th>';
+                                tableHtml += '<th style="text-align:center;">AA</th>';
+                                tableHtml += '<th style="text-align:center;">AAA</th>';
+                                tableHtml += '<th style="text-align:center;">A</th>';
+                                tableHtml += '<th style="text-align:center;">AA</th>';
+                                tableHtml += '<th style="text-align:center;">AAA</th>';
+                            tableHtml += '</tr>';
+                        tableHtml +='</thead>';
+
+
+                        rowsToShow.slice(0).forEach(row => { // Skip the first row (header)
+                            const columns = row.split(',');
+                            tableHtml += '<tr>';
+                            columns.forEach(column => {
+                                tableHtml += `<td>${column}</td>`;
+                            });
+                            tableHtml += '</tr>';
+                        });
+                        tableHtml += '</table>';
+                        tableContainer.innerHTML = tableHtml;
+
+                        renderPagination(totalPages);
+                        renderNavigation();
+                    })
+                    .catch(error => console.error('Error fetching CSV:', error));
+            };
+
+            const renderPagination = function(totalPages) {
+                let paginationHtml = '';
+                for (let i = 1; i <= totalPages; i++) {
+                    paginationHtml += `<button onclick="goToPage(${i})">${i}</button>`;
+                }
+                paginationContainer.innerHTML = paginationHtml;
+            };
+
+            const renderNavigation = function() {
+                navigationContainer.innerHTML = '';
+                if (currentPage > 1) {
+                    navigationContainer.innerHTML += `<button onclick="prevPage()">Previous</button>`;
+                }
+                if (currentPage < totalPages) {
+                    navigationContainer.innerHTML += `<button onclick="nextPage()">Next</button>`;
+                }
+            };
+
+            window.goToPage = function(page) {
+                currentPage = page;
+                fetchDataAndRenderTable();
+            };
+
+            window.prevPage = function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    fetchDataAndRenderTable();
+                }
+            };
+
+            window.nextPage = function() {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    fetchDataAndRenderTable();
+                }
+            };
+            // Initial data fetch and table rendering
+            fetchDataAndRenderTable();
+
+            // Event listener for select element change
+        });
+    </script>
+    <hr id="horizontal">
+    <footer>
+        <div id="contact" align="center">
+            <h2>Contact Us</h2>
+            <p>Email: contact@example.com</p>
+            <p>Phone: +1234567890</p>
+            <p>Address: 123 Street, City, Country</p>
+                <div class="contact-icons">
+                <a href="#" class="fa fa-facebook"></a>
+                <a href="#" class="fa fa-twitter"></a>
+                <a href="#" class="fa fa-google",></a>
+                <a href="#" class="fa fa-linkedin"></a>
+            </div>  
+        </div>
+            <div>
+                <p>&copy; 2024 Govt Websites. All rights reserved.</p>
+            </div>
+    </footer>
+</body>
+</html>
