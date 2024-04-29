@@ -13,12 +13,16 @@ body {
     padding: 20px;
     background-color: var(--background-color);
     color: var(--text-color);
+    overflow: auto;
 }
 
 header {
-    justify-self: center;
+    position: fixed;
+    top: -10px;
+    left: 0;
     width: 100%;
     background-color: white;
+    z-index: 1000;
 }
 
 h1 {
@@ -36,7 +40,10 @@ h1 {
 table {
     border-collapse: collapse;
     width: 100%;
-    margin-top: 20px;
+}
+
+main {
+    padding-top: 100px;
 }
 
 table,
@@ -90,7 +97,7 @@ li {
 a {
     text-decoration: none;
     color: #090909;
-    font-size: 13.5px;
+    font-size: 18px;
     display: flex;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -99,6 +106,7 @@ a {
 
 #links {
     color: #000000;
+    text-align:center;
 }
 
 a:hover {
@@ -160,7 +168,7 @@ a:hover {
     text-decoration: center;
     height: 50px;
     width: 50px;
-  }
+}
 
 /* Clear floats after the columns */
 .row:after {
@@ -183,7 +191,15 @@ a:hover {
 }
 
 footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     background-color: #f1f3f4;
+    padding: 0.1%;
+    box-sizing: border-box;
+    text-align: center;
+    line-height: 0;
 }
 
 .contact-icons {
@@ -202,7 +218,17 @@ footer {
 }
 
 .fa:hover {
-    opacity: 0.7;
+    opacity: 0.80;
+}
+
+.fa-phone {
+    background: #4eaa7c;
+    color: white;
+}
+
+.fa-envelope {
+    background: #dd4b39;
+    color: white;
 }
 
 .fa-facebook {
@@ -224,3 +250,29 @@ footer {
     background: #55acee;
     color: white;
 }
+
+/* Table container adjustments */
+#table-container-wrapper {
+    width: 75%; /* Adjusted width to 75% */
+    overflow-x: auto;
+    max-height: 400px; /* Adjust the max-height as needed */
+    /* border: 1px solid var(--primary-color); Add border */
+    padding: 10px; /* Add padding */
+    margin: auto; /* Center the container horizontally */
+    /* box-sizing: border-box; Ensure padding is included in width */
+    margin-top: 20px; /* Adjust margin as needed */
+}
+
+#table-container {
+    width: calc(100% - 20px); /* Adjust width to account for padding */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Pagination adjustments */
+/* #pagination {
+    position: fixed;
+    bottom: 10px;
+    left: 50%; 
+    transform: translateX(-50%);
+    z-index: 100; 
+} */
