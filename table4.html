@@ -35,19 +35,33 @@
                 </ul>
             </nav>
     </header>
-    <main style="padding-top:190px;">
+    <main style="padding-top:90px;">
         <p style = "text-align:center;font-size:200%;font-weight:bold;">Table 4</p>
     <p style = "text-align:center;font-size:150%;font-weight:200;"> Table 4 The average known Level AA errors according to WCAG 2.0-POUR principcles per education institution, including their college websites</p>
     <p style = "text-align:center;font-size:150%;font-weight:200;">The error rate percentage and performance level are categorized as follows: high (0–33.3%), medium
         (33.4–66.6%) and low (66.7–100.0%) P perceivable, O operable, U understandable, R robust.</p>
-    <main>
-        <div id="table-container" style="width:80%;margin-left:10%"></div>
-        <div id="pagination"></div>
-        <div id="navigation">
-            <button id="prevBtn" onclick="prevPage()">Previous</button>
-            <button id="nextBtn" onclick="nextPage()">Next</button>
+        <div style="padding-top:90;">
+            <div>
+                <label for="limitSelect" aligntext ="right">Rows per page:</label>
+                <select id="limitSelect" onchange="changeRowsPerPage()">
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="25">25</option>
+                    <option value="35">35</option>
+                    <option value="45">45</option>
+                    <option value="100">All</option>
+                </select>
+            </div>
+            <div id="filter-container"></div>
+            <div id="table-container-wrapper"> <!-- Add wrapper for the table container -->
+                <div id="table-container"></div> <!-- Move the table container inside the wrapper -->
+            </div>
+            <div id="pagination"></div>
+            <div id="navigation">
+                <button id="prevBtn" onclick="prevPage()">Previous</button>
+                <button id="nextBtn" onclick="nextPage()">Next</button>
+            </div>
         </div>
-    </main>
     </main>
     
 
@@ -55,10 +69,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const filterContainer = document.getElementById('filter-container');
             const tableContainer = document.getElementById('table-container');
             const paginationContainer = document.getElementById('pagination');
             const navigationContainer = document.getElementById('navigation');
-            const rowsPerPage = 10; // Change this to adjust the number of rows per page
+            const limitSelect = document.getElementById('limitSelect');
+            let rowsPerPage = parseInt(limitSelect.value);
             let currentPage = 1;
             let headerRow = '';
             let totalPages = 0;
@@ -68,18 +84,14 @@
                     .then(response => response.text())
                     .then(csv => {
                         const rows = csv.split('\n').slice(1);
-                        totalPages = Math.ceil((rows.length - 1) / rowsPerPage); // Exclude header row from count
+                        totalPages = Math.ceil(rows.length / rowsPerPage); // Exclude header row from count
                         let startIndex = (currentPage - 1) * rowsPerPage;
-                        let endIndex = startIndex + rowsPerPage;
-                        if (currentPage > totalPages) {
-                            currentPage = totalPages;
-                            startIndex = (currentPage - 1) * rowsPerPage;
-                            endIndex = rows.length - 1; // Exclude header row
-                        }
+                        let endIndex = Math.min(startIndex + rowsPerPage, rows.length);
                         const rowsToShow = rows.slice(startIndex, endIndex + 0); // Include header row
                         let tableHtml = '';
                         tableHtml = '<table>';
-                                tableHtml += '<tr>';
+                            tableHtml += '<thead>';
+                                tableHtml += '<tr class="header-row">';
                                     tableHtml += '<th style="text-align:center;">ID</th>';
                                     tableHtml += '<th style="text-align:center;">Ranking</th>';
                                     tableHtml += '<th style="text-align:center;">P</th>';
@@ -100,6 +112,36 @@
                         });
                         tableHtml += '</table>';
                         tableContainer.innerHTML = tableHtml;
+
+                        const headerRow = tableContainer.querySelector('.header-row');
+                        let filterHtml = '<tr class="filter-row">';
+                        headerRow.querySelectorAll('th').forEach((th, colIndex) => {
+                            const uniqueValues = Array.from(new Set(rows.map(row => row.split(',')[colIndex])));
+                            filterHtml += `<td align="center"><select class="filter-select"><option value="">search here</option>`;
+                            uniqueValues.forEach(value => {
+                                filterHtml += `<option value="${value}">${value}</option>`;
+                            });
+                            filterHtml += `</select></td>`;
+                        });
+                        filterHtml += '</tr>';
+                        filterContainer.innerHTML = filterHtml;
+
+                        const filterSelects = filterContainer.querySelectorAll('.filter-select');
+                        filterSelects.forEach((select, colIndex) => {
+                            select.addEventListener('change', function() {
+                                const filterValue = this.value.toLowerCase();
+                                const rows = tableContainer.querySelectorAll('tr:not(.header-row)');
+                                rows.forEach(row => {
+                                    const cell = row.querySelectorAll('td')[colIndex];
+                                    if (filterValue === "" || cell.textContent.toLowerCase() === filterValue) {
+                                        row.style.display = '';
+                                    } else {
+                                        row.style.display = 'none';
+                                    }
+                                });
+                            });
+                        });
+
 
                         renderPagination(totalPages);
                         renderNavigation();
@@ -125,6 +167,12 @@
                 }
             };
 
+            const changeRowsPerPage = function() {
+            rowsPerPage = parseInt(limitSelect.value);
+            currentPage = 1;
+            fetchDataAndRenderTable();
+            };
+
             window.goToPage = function(page) {
                 currentPage = page;
                 fetchDataAndRenderTable();
@@ -147,10 +195,11 @@
             fetchDataAndRenderTable();
 
             // Event listener for select element change
+            limitSelect.addEventListener('change', changeRowsPerPage);
         });
     </script>
-    <hr id="horizontal">
     <footer>
+        <hr id="horizontal" style="margin-top:0;">
         <div id="contact" align="center">
             <h2>Contact Us</h2>
             <p>Email: contact@example.com</p>
