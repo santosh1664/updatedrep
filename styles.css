@@ -282,6 +282,7 @@ footer {
 .filter-select {
     width: 15%; /* Set the width to 100% to match the container */
     margin-bottom: 10px; /* Add margin below each dropdown */
+    text-align: center;
 }
 
 /* Style for the label */
