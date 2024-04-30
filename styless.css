@@ -94,6 +94,7 @@ ul {
 
 nav {
   background-color: #53d1d7;
+  position: fixed;
   color: #A0E9FF;
   margin-bottom: 0px;
   display: flex;
