@@ -5,24 +5,31 @@
     --accent-color: #000000; /* Red */
     --text-color: #000; /* Dark Gray */
     --background-color: #fff; /* White */
+    --footer-color:  #ede9b6a9;; /* cement color */
 }
 
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0px;
     background-color: var(--background-color);
     color: var(--text-color);
     overflow: auto;
 }
 
-header {
+/* header {
     position: fixed;
     top: -10px;
     left: 0;
     width: 100%;
     background-color: white;
     z-index: 1000;
+} */
+header {
+    position: sticky;
+    top: -25px;
+    width: 100%;
+    background-color: var(--background-color);
 }
 
 h1 {
@@ -193,12 +200,13 @@ a:hover {
     background-color: #000000;
 }
 
+
 footer {
-    position: s;
+    /* position: sticky; */
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: #ffffff;
+    background-color: var(--footer-color);
     padding: 0.1%;
     box-sizing: border-box;
     text-align: center;

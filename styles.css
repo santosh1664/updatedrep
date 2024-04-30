@@ -5,24 +5,22 @@
     --accent-color: #000000; /* Red */
     --text-color: #000; /* Dark Gray */
     --background-color: #fff; /* White */
+    --footer-color:  #ede9b6a9;; /* cement color */
 }
 
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+    padding: 0px;
     background-color: var(--background-color);
     color: var(--text-color);
     overflow: auto;
 }
 
 header {
-    position: fixed;
-    top: -10px;
-    left: 0;
     width: 100%;
-    background-color: white;
-    z-index: 1000;
+    top: 2px;
+    background-color: var(--background-color);
 }
 
 h1 {
@@ -43,7 +41,7 @@ table {
 }
 
 main {
-    padding-top: 100px;
+    padding-top: 1000px;
 }
 
 table,
@@ -73,7 +71,7 @@ tr:nth-child(even) {
 nav {
     background-color: #53d1d7;
     color: #a0e9ff;
-    margin-bottom: 0px;
+    margin-bottom: 3px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -194,12 +192,11 @@ a:hover {
 }
 
 footer {
-    position: s;
-    bottom: 0;
+    /* position: sticky; */
     left: 0;
     width: 100%;
-    background-color: #ffffff;
-    padding: 0.1%;
+    background-color: var(--footer-color);
+    padding: 0.2%;
     box-sizing: border-box;
     text-align: center;
     line-height: 0;

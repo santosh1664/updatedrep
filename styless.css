@@ -5,6 +5,7 @@
     --accent-color: #000000; /* Red */
     --text-color: #000; /* Dark Gray */
     --background-color: #fff; /* White */
+    --footer-color:  #ede9b6a9;; /* cement color */
 }
 
 body {
@@ -94,13 +95,14 @@ ul {
 
 nav {
   background-color: #53d1d7;
-  position: fixed;
-  color: #A0E9FF;
+  color: #a0e9ff;
   margin-bottom: 0px;
   display: flex;
-  align-items: center;
+  position: relative;
+  width: 100%;
+left: 0%;
   justify-content: center;
-} 
+}
 /* nav{
   background-color: #007bb5;
   color: #A0E9FF;
@@ -209,7 +211,7 @@ bdy {
 }
 body {
     height: 100%;
-    padding: 20px;
+    padding: 0px;
     margin: 0;
   }
   
@@ -291,5 +293,5 @@ body {
 }
 footer
 {
-  background-color:#ffffff;
+  background-color:var(--footer-color);
 }
