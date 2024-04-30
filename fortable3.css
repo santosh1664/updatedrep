@@ -272,8 +272,8 @@ footer {
     
 }#filter-container {
    
-    position: fixed;
-    width: 95.9%;
+    position: sticky;
+    width: 50%;
     padding: 0.1%;
     text-align: center;
 }
