@@ -80,9 +80,11 @@ tr:nth-child(even) {
 nav {
     background-color: #53d1d7;
     color: #a0e9ff;
-    margin-bottom: 0px;
+    margin-bottom: 3px;
     display: flex;
-
+    position: relative;
+    width: 100%;
+    left: 0%;
     justify-content: center;
 }
 
@@ -98,7 +100,7 @@ ul {
 
 li {
     display: inline-block;
-    margin-right: 75px;
+    margin-right: 65px;
 }
 
 a {
