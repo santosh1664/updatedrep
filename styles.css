@@ -19,7 +19,7 @@ body {
 
 header {
     width: 100%;
-    top: 2px;
+    top: -10px;
     background-color: var(--background-color);
 }
 
@@ -41,7 +41,7 @@ table {
 }
 
 main {
-    padding-top: 1000px;
+    padding-top: 100px;
 }
 
 table,
@@ -185,21 +185,22 @@ a:hover {
     }
 }
 
-#horizontal {
+/* #horizontal {
     height: 3px;
     border: none;
     background-color: #000000;
-}
+} */
 
 footer {
     /* position: sticky; */
     left: 0;
     width: 100%;
     background-color: var(--footer-color);
-    padding: 0.2%;
+    padding: 01%;
     box-sizing: border-box;
+    bottom: 0;
     text-align: center;
-    line-height: 0;
+    line-height: 0.3;
 }
 
 .contact-icons {
