@@ -36,6 +36,7 @@
     </header>
     
     <main style="padding-top:200px;">
+        <div id="pageNumber"></div>
         <div id="table-container" style="width:80%;margin-left:10%"></div>
         <div id="pagination"></div>
         <div id="navigation">
@@ -49,11 +50,14 @@
             const tableContainer = document.getElementById('table-container');
             const paginationContainer = document.getElementById('pagination');
             const navigationContainer = document.getElementById('navigation');
+            const pageNumber = document.getElementById('pageNumber');
             const rowsPerPage = 10; // Change this to adjust the number of rows per page
             let currentPage = 1;
             let headerRow = '';
             let totalPages = 0;
 
+            pageNumber.innerHTML = '';
+            pageNumber.innerHTML = `<p>Current Page of table: ${currentPage}</p>`;
             const fetchDataAndRenderTable = function() {
                 fetch('https://raw.githubusercontent.com/santosh1664/Dummy/main/Book1.csv')
                     .then(response => response.text())
@@ -125,19 +129,24 @@
 
             window.goToPage = function(page) {
                 currentPage = page;
+                pageNumber.innerHTML = `<p>Current Page of table:  ${currentPage}</p>`;
                 fetchDataAndRenderTable();
             };
 
             window.prevPage = function() {
                 if (currentPage > 1) {
+                    pageNumber.innerHTML = '';
                     currentPage--;
+                    pageNumber.innerHTML += `<p>Current Page of table:  ${currentPage}</p>`;
                     fetchDataAndRenderTable();
                 }
             };
 
             window.nextPage = function() {
                 if (currentPage < totalPages) {
+                    pageNumber.innerHTML = '';
                     currentPage++;
+                    pageNumber.innerHTML += `<p>Current Page of table:  ${currentPage}</p>`;
                     fetchDataAndRenderTable();
                 }
             };
