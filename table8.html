@@ -329,7 +329,7 @@
                     <li><a href="table5.html">A checker to A</a></li>
                     <li><a href="table6.html">A Checker to AA Checker</a></li>
                     <li><a href="table7.html">Wave Tool Validation</a></li>
-                    <li><a href="table8.html">Wave Tool</a></li>
+                    <li style="background-color:#e9f2f3"><a href="table8.html">Wave Tool</a></li>
                 </ul>
             </nav>
     </header>
@@ -348,6 +348,7 @@
                     <option value="100">Show All</option>
                 </select>
             </div>
+            <div id="pageNumber"></div>
             <div id="filter-container"></div>
             <div id="table-container-wrapper"> <!-- Add wrapper for the table container -->
                 <div id="table-container"></div> <!-- Move the table container inside the wrapper -->
@@ -367,12 +368,15 @@
             const paginationContainer = document.getElementById('pagination');
             const navigationContainer = document.getElementById('navigation');
             const limitSelect = document.getElementById('limitSelect');
+            const pageNumber = document.getElementById('pageNumber');
             let rowsPerPage = parseInt(limitSelect.value);
             let currentPage = 1;
             let headerRow = '';
             let totalPages = 0;
             let rows = [];
 
+            pageNumber.innerHTML = '';
+            pageNumber.innerHTML = `<p>Current Page of table: ${currentPage}</p>`;
             const fetchDataAndRenderTable = function() {
                 fetch('https://raw.githubusercontent.com/santosh1664/egovern/csv/csv%20Files/Table8.csv')
                     .then(response => response.text())
@@ -468,19 +472,24 @@
 
             window.goToPage = function(page) {
                 currentPage = page;
+                pageNumber.innerHTML = `<p>Current Page of table:  ${currentPage}</p>`;
                 fetchDataAndRenderTable();
             };
 
             window.prevPage = function() {
                 if (currentPage > 1) {
+                    pageNumber.innerHTML = '';
                     currentPage--;
+                    pageNumber.innerHTML += `<p>Current Page of table:  ${currentPage}</p>`;
                     fetchDataAndRenderTable();
                 }
             };
 
             window.nextPage = function() {
                 if (currentPage < totalPages) {
+                    pageNumber.innerHTML = '';
                     currentPage++;
+                    pageNumber.innerHTML += `<p>Current Page of table:  ${currentPage}</p>`;
                     fetchDataAndRenderTable();
                 }
             };
