@@ -154,7 +154,7 @@ a {
 } */
 a:hover {
     background-color: var(--secondary-color);
-    background-color: #66cfd8;
+    background-color: #eef4f5;
     padding: 10px 10px;
 }
 
