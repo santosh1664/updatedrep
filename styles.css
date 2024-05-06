@@ -70,15 +70,114 @@ tr:nth-child(even) {
 
 nav {
     background-color: #53d1d7;
-    color: #a0e9ff;
-    margin-bottom: 3px;
+    color: var(--text-color);
     display: flex;
     position: relative;
     width: 100%;
     left: 0%;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 30px 0;
 }
-
+nav > :is(h1, span)
+{
+    width: 34px;
+    height:34px;
+    display: grid;
+    place-items: center;
+}
+nav span
+{
+    color:#fff;
+    font-size:20px;
+}
+a {cursor: pointer;}
+.menu
+{
+    margin:0;
+    padding:0;
+    display:flex;
+    justify-content:center;
+    align-items:stretch;
+    height:70px;
+}
+.menu li
+{
+    display: inline-block;
+    width:200px;
+    color:white;
+    transition: all 0.3s ease-in-out;
+}
+.menu li:hover .submenu
+{
+    height:86px;
+}
+.menu > li:hover > a
+{
+    color:#000000;
+}
+.menu > li:hover > a::before
+{
+    visibility:visible;
+    scale: 1 1;
+}
+.submenu
+{
+    overflow:hidden;
+    position:absolute;
+    left:50%;
+    top:100%;
+    transform:translateX(-50%);
+    display:flex;
+    justify-content:center;
+    align-items:stretch;
+    width:auto;
+    background-color:red;
+    height:0;
+    line-height:30px;
+    box-sizing:border-box;
+    transition:height 0.3s ease-in-out;
+}
+.menu li .submenu a
+{
+    color: #fff;
+    opacity:1;
+    transition: opacity 0.25s;
+    padding: 1px 10px;
+    white-space: nowrap;
+}
+.menu > li:hover .submenu
+{
+    opacity:1;
+}
+.menu > li .submenu a:hover
+{
+    background:rgb(0 0 0 / 20%);
+}
+.menu > li a
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 7px;
+    text-decoration: none;
+    position: relative;
+    height: 100%;
+    transition: 0.3s;
+}
+.menu > li > a::before
+{
+    content: "";
+    position:absolute;
+    width:100%;
+    height:3px;
+    bottom:3px;
+    left:0px;
+    background-color:red;
+    transition: all 0.2s ease-in-out;
+    scale: 0 0;
+    visibility: hidden;
+}
 ul {
     list-style-type: none;
     height: 45px;
@@ -91,13 +190,14 @@ ul {
 
 li {
     display: inline-block;
-    margin-right: 65px;
+    margin-right: 20px;
+    margin-left:20px;
 }
 
 a {
     text-decoration: none;
     color: #090909;
-    font-size: 11.5px;
+    font-size: 16px;
     display: flex;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -277,12 +377,19 @@ footer {
     padding: 0.1%;
     text-align: center;
 }
-
+#filter-container-table
+{
+    position:sticky;
+    width:100%;
+    margin-top:0%;
+    text-align:right;
+}
 /* Style for the filter dropdowns */
 .filter-select {
     width: 15%; /* Set the width to 100% to match the container */
     margin-bottom: 10px; /* Add margin below each dropdown */
     text-align: center;
+    border-radius:30%;
 }
 
 /* Style for the label */
