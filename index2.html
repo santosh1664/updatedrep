@@ -240,7 +240,8 @@
         item.addEventListener('mouseenter', function() {
             const rect = item.getBoundingClientRect();
             const leftPosition = rect.left + (rect.width / 2) - (submenu.offsetWidth / 2);
-            submenu.style.left = `${leftPosition}px`;
+            position = leftPosition-5;
+            submenu.style.left = `${position}px`;
         });
 
         item.addEventListener('mouseleave', function() {

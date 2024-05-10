@@ -170,6 +170,23 @@
 
             // Event listener for select element change
             limitSelect.addEventListener('input', fetchDataAndRenderTable);
+
+            const menuItems = document.querySelectorAll('.menu > li');
+
+    menuItems.forEach(item => {
+        const submenu = item.querySelector('.submenu');
+
+        item.addEventListener('mouseenter', function() {
+            const rect = item.getBoundingClientRect();
+            const leftPosition = rect.left + (rect.width / 2) - (submenu.offsetWidth / 2);
+            position = leftPosition-5;
+            submenu.style.left = `${position}px`;
+        });
+
+        item.addEventListener('mouseleave', function() {
+            submenu.style.left = '0'; // Reset to default position
+        });
+    });
         });
     </script>
     <footer>

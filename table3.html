@@ -74,9 +74,22 @@
                 </select>
             </div>
             <div id="pageNumber"></div>
-            <div id="filter-container"></div>
             <div id="table-container-wrapper"> <!-- Add wrapper for the table container -->
-                <div id="table-container"></div> <!-- Move the table container inside the wrapper -->
+                <table id="table-container">
+                    <thead>
+                        <tr class="header-row">
+                            <th style="text-align:center;">ID</th>
+                                <th style="text-align:center;">Ranking</th>
+                                <th style="text-align:center;">P</th>
+                                <th style="text-align:center;">O</th>
+                                <th style="text-align:center;">U</th>
+                                <th style="text-align:center;">R</th>
+                                <th style="text-align:center;">Error %</th>
+                                <th><div style="width:60%;float:left;text-align:right;">Performance</div><div id="filter-container-table" style="width:40%;float:left;text-align:left;"></div></th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-container"></tbody>
+                    </table>
             </div>
             <div id="pagination"></div>
             <div id="navigation">
@@ -92,8 +105,9 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const filterContainer = document.getElementById('filter-container');
+            const filterContainer = document.getElementById('filter-container-table');
             const tableContainer = document.getElementById('table-container');
+            const tableBodyContainer = document.getElementById('tbody-container');
             const paginationContainer = document.getElementById('pagination');
             const navigationContainer = document.getElementById('navigation');
             const limitSelect = document.getElementById('limitSelect');
@@ -114,50 +128,40 @@
                         let startIndex = (currentPage - 1) * rowsPerPage;
                         let endIndex = Math.min(startIndex + rowsPerPage, rows.length);
                         const rowsToShow = rows.slice(startIndex, endIndex + 0); // Include header row
-                        let tableHtml = '';
-                        tableHtml = '<table>';
-                            tableHtml += '<thead>';
-                                tableHtml += '<tr class="header-row">';
-                                    tableHtml += '<th style="text-align:center;">ID</th>';
-                                    tableHtml += '<th style="text-align:center;">Ranking</th>';
-                                    tableHtml += '<th style="text-align:center;">P</th>';
-                                    tableHtml += '<th style="text-align:center;">O</th>';
-                                    tableHtml += '<th style="text-align:center;">U</th>';
-                                    tableHtml += '<th style="text-align:center;">R</th>';
-                                    tableHtml += '<th style="text-align:center;">Error %</th>';
-                                    tableHtml += '<th style="text-align:center;">Performance</th>';
-                                tableHtml +='</tr>';
-                            tableHtml += '</thead>';
+                        let tableBodyCon = '';
                             rowsToShow.slice(0).forEach(row => { // Skip the first row (header)
                             const columns = row.split(',');
-                            tableHtml += '<tr>';
+                            tableBodyCon  += '<tr>';
                             columns.forEach(column => {
-                                tableHtml += `<td>${column}</td>`;
+                                tableBodyCon += `<td>${column}</td>`;
                             });
-                            tableHtml += '</tr>';
+                            tableBodyCon += '</tr>';
                         });
-                        tableHtml += '</table>';
-                        tableContainer.innerHTML = tableHtml;
+                        tableBodyContainer.innerHTML = tableBodyCon;
+                        
                         const headerRow = tableContainer.querySelector('.header-row');
-                        let filterHtml = '<tr class="filter-row">';
+                        let filterHtml = '<select class="filter-select"><option value="">Any</option>';
                         headerRow.querySelectorAll('th').forEach((th, colIndex) => {
                             const uniqueValues = Array.from(new Set(rows.map(row => row.split(',')[colIndex])));
-                            filterHtml += `<td align="center"><select class="filter-select"><option value="">search here</option>`;
+                            // filterHtml += `<td align="center"><select class="filter-select"><option value="">search here</option>`;
                             uniqueValues.forEach(value => {
-                                filterHtml += `<option value="${value}">${value}</option>`;
+                                if(colIndex == 7)
+                                {
+                                    filterHtml += `<option value="${value}">${value}</option>`;
+                                }
                             });
-                            filterHtml += `</select></td>`;
+                            
                         });
-                        filterHtml += '</tr>';
+                        filterHtml += `</select>`;
                         filterContainer.innerHTML = filterHtml;
 
                         const filterSelects = filterContainer.querySelectorAll('.filter-select');
-                        filterSelects.forEach((select, colIndex) => {
+                        filterSelects.forEach((select) => {
                             select.addEventListener('change', function() {
                                 const filterValue = this.value.toLowerCase();
                                 const rows = tableContainer.querySelectorAll('tr:not(.header-row)');
                                 rows.forEach(row => {
-                                    const cell = row.querySelectorAll('td')[colIndex];
+                                    const cell = row.querySelectorAll('td')[7];
                                     if (filterValue === "" || cell.textContent.toLowerCase() === filterValue) {
                                         row.style.display = '';
                                     } else {
@@ -225,6 +229,23 @@
 
             // Event listener for select element change
             limitSelect.addEventListener('change', changeRowsPerPage);
+
+            const menuItems = document.querySelectorAll('.menu > li');
+
+    menuItems.forEach(item => {
+        const submenu = item.querySelector('.submenu');
+
+        item.addEventListener('mouseenter', function() {
+            const rect = item.getBoundingClientRect();
+            const leftPosition = rect.left + (rect.width / 2) - (submenu.offsetWidth / 2);
+            position = leftPosition-5;
+            submenu.style.left = `${position}px`;
+        });
+
+        item.addEventListener('mouseleave', function() {
+            submenu.style.left = '0'; // Reset to default position
+        });
+    });
         });
     </script>
     <footer>

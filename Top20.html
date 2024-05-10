@@ -55,8 +55,22 @@
     </header>
     
     <main style="padding-top:250px;">
+        <p style = "text-align:center;font-size:200%;font-weight:bold;">Top 20</p>
         <div id="pageNumber"></div>
-        <div id="table-container" style="width:80%;margin-left:10%"></div>
+        <div id="table-container-wrapper"> <!-- Add wrapper for the table container -->
+            <table id="table-container">
+                <thead>
+                    <tr class="header-row">
+                        <th style="text-align:center;">No.</th>
+                        <th style="text-align:center;">Government Name</th>
+                        <th style="text-align:center;">Website URL</th>
+                        <th><div style="width:70%;float:left;text-align:right">Government Type</div> <div id="filter-container-table" style="width:30%;float:left;text-align:left;"></div></th>
+                        <th style="text-align:center;">ID</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody-container"></tbody>
+                </table>
+        </div>
         <div id="pagination"></div>
         <div id="navigation">
             <button id="prevBtn" onclick="prevPage()">Previous</button>
@@ -67,6 +81,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const tableContainer = document.getElementById('table-container');
+            const tableBodyContainer = document.getElementById('tbody-container');
+            const filterContainer = document.getElementById('filter-container-table');
             const paginationContainer = document.getElementById('pagination');
             const navigationContainer = document.getElementById('navigation');
             const pageNumber = document.getElementById('pageNumber');
@@ -81,7 +97,7 @@
                 fetch('https://raw.githubusercontent.com/santosh1664/Dummy/main/Book1.csv')
                     .then(response => response.text())
                     .then(csv => {
-                        const rows = csv.split('\n').slice(1);
+                        const rows = csv.split('\n').slice(1,21);
                         totalPages = Math.ceil((rows.length - 1) / rowsPerPage); // Exclude header row from count
                         let startIndex = (currentPage - 1) * rowsPerPage;
                         let endIndex = startIndex + rowsPerPage;
@@ -91,36 +107,58 @@
                             endIndex = rows.length - 1; // Exclude header row
                         }
                         const rowsToShow = rows.slice(startIndex, endIndex + 0); // Include header row
-                        let tableHtml = '';
-                         tableHtml = '<table>';
-                            tableHtml += '<thead>';
-                                tableHtml += '<tr>';
-                                    tableHtml += '<th style="text-align:center;">No.</th>';
-                                    tableHtml += '<th style="text-align:center;">Government Name</th>';
-                                    tableHtml += '<th style="text-align:center;">Website URL</th>';
-                                    tableHtml += '<th style="text-align:center;">Government Type</th>';
-                                    tableHtml += '<th style="text-align:center;">ID</th>';
-                            tableHtml += '</thead>';
+                        let tableBodyCon = '';
                         
                         rowsToShow.slice(0).forEach(row => { // Skip the first row (header)
                             let j = 0;
                             const columns = row.split(',');
-                            tableHtml += '<tr>';
+                            tableBodyCon += '<tr>';
                             columns.forEach(column => {
                                 if(j == 2)
                                 {
-                                    tableHtml += `<td><a class="links" style="text-align:center;" href="${column}">${column}</a></td>`;
+                                    tableBodyCon += `<td><a class="links" style="text-align:center;" href="${column}">${column}</a></td>`;
                                 }
                                 else
                                 {
-                                    tableHtml += `<td>${column}</td>`;
+                                    tableBodyCon += `<td>${column}</td>`;
                                 }
                                 j++;
                             });
-                            tableHtml += '</tr>';
+                            tableBodyCon += '</tr>';
                         });
-                        tableHtml += '</table>';
-                        tableContainer.innerHTML = tableHtml;
+                        tableBodyContainer.innerHTML = tableBodyCon;
+
+                        const headerRow = tableContainer.querySelector('.header-row');
+                        let filterHtml = '<select class="filter-select"><option value="">Any</option>';
+                        headerRow.querySelectorAll('th').forEach((th, colIndex) => {
+                            const uniqueValues = Array.from(new Set(rows.map(row => row.split(',')[colIndex])));
+                            // filterHtml += `<td align="center"><select class="filter-select"><option value="">search here</option>`;
+                            uniqueValues.forEach(value => {
+                                if(colIndex == 3)
+                                {
+                                    filterHtml += `<option value="${value}">${value}</option>`;
+                                }
+                            });
+                            
+                        });
+                        filterHtml += `</select>`;
+                        filterContainer.innerHTML = filterHtml;
+
+                        const filterSelects = filterContainer.querySelectorAll('.filter-select');
+                        filterSelects.forEach((select) => {
+                            select.addEventListener('change', function() {
+                                const filterValue = this.value.toLowerCase();
+                                const rows = tableContainer.querySelectorAll('tr:not(.header-row)');
+                                rows.forEach(row => {
+                                    const cell = row.querySelectorAll('td')[3];
+                                    if (filterValue === "" || cell.textContent.toLowerCase() === filterValue) {
+                                        row.style.display = '';
+                                    } else {
+                                        row.style.display = 'none';
+                                    }
+                                });
+                            });
+                        });
 
                         renderPagination(totalPages);
                         renderNavigation();
@@ -172,9 +210,25 @@
 
             // Initial data fetch and table rendering
             fetchDataAndRenderTable();
+
+            const menuItems = document.querySelectorAll('.menu > li');
+
+    menuItems.forEach(item => {
+        const submenu = item.querySelector('.submenu');
+
+        item.addEventListener('mouseenter', function() {
+            const rect = item.getBoundingClientRect();
+            const leftPosition = rect.left + (rect.width / 2) - (submenu.offsetWidth / 2);
+            position = leftPosition-5;
+            submenu.style.left = `${position}px`;
+        });
+
+        item.addEventListener('mouseleave', function() {
+            submenu.style.left = '0'; // Reset to default position
+        });
+    });
         });
     </script>
-    <hr id="horizontal">
     <footer>
         <div id="contact" align="center">
             <h2>Contact Us</h2>
