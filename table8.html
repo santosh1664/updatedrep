@@ -82,7 +82,7 @@
     left: 0%;
     justify-content: space-around;
     align-items: center;
-    padding: 10px 30px 0;
+    padding: 0px 0px 0;
 }
 nav > :is(h1, span)
 {
@@ -105,13 +105,19 @@ a {cursor: pointer;}
     justify-content:center;
     align-items:stretch;
     height:70px;
+    overflow:hidden;
+    list-style-type:none;
 }
 .menu li
 {
     display: inline-block;
     width:200px;
     color:white;
-    transition: all 0.3s ease-in-out;
+    /* transition: all 0.3s ease-in-out; */
+}
+.submenu li
+{
+    width:200px;
 }
 .menu li:hover .submenu
 {
@@ -130,24 +136,25 @@ a {cursor: pointer;}
 {
     overflow:hidden;
     position:absolute;
-    left:50%;
+    /* left:50%; */
     top:100%;
-    transform:translateX(-50%);
+    /* transform:translateX(-50%); */
     display:flex;
     justify-content:center;
     align-items:stretch;
+    flex-direction:column;
     width:auto;
-    background-color:red;
+    background-color: #53d1d7;
     height:0;
     line-height:30px;
     box-sizing:border-box;
-    transition:height 0.3s ease-in-out;
+    /* transition:height 0.3s ease-in-out; */
 }
 .menu li .submenu a
 {
     color: #fff;
     opacity:1;
-    transition: opacity 0.25s;
+    /* transition: opacity 0.25s; */
     padding: 1px 10px;
     white-space: nowrap;
 }
@@ -168,7 +175,8 @@ a {cursor: pointer;}
     text-decoration: none;
     position: relative;
     height: 100%;
-    transition: 0.3s;
+    color:white;
+    /* transition: 0.3s; */
 }
 .menu > li > a::before
 {
@@ -178,8 +186,8 @@ a {cursor: pointer;}
     height:3px;
     bottom:3px;
     left:0px;
-    background-color:red;
-    transition: all 0.2s ease-in-out;
+    background-color: #53d1d7;
+    /*transition: all 0.2s ease-in-out; */
     scale: 0 0;
     visibility: hidden;
 }
@@ -205,7 +213,7 @@ a {
     font-size: 16px;
     display: flex;
     border-radius: 5px;
-    transition: background-color 0.3s;
+    /* transition: background-color 0.3s; */
     font-weight: bold;
 }
 
@@ -467,9 +475,20 @@ a {
                 </select>
             </div>
             <div id="pageNumber"></div>
-            <div id="filter-container"></div>
             <div id="table-container-wrapper"> <!-- Add wrapper for the table container -->
-                <div id="table-container"></div> <!-- Move the table container inside the wrapper -->
+                <table id="table-container">
+                    <thead>
+                        <tr class="header-row">
+                            <th style="text-align:center;">Serial No.</th>
+                            <th><div style="width:60%;float:left;text-align:right">Error Type</div><div id="filter-container-table" style="width:40%;float:left;text-align:left;"></div></th>
+                            <th style="text-align:center;">No. Errors ID(1-32)</th>
+                            <th style="text-align:center;">No. Errors ID(33-64)</th>
+                            <th style="text-align:center;">Total</th>
+                            <th style="text-align:center;">Error Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-container"></tbody>
+                    </table>
             </div>
             <div id="pagination"></div>
             <div id="navigation">
@@ -481,8 +500,9 @@ a {
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const filterContainer = document.getElementById('filter-container');
+            const filterContainer = document.getElementById('filter-container-table');
             const tableContainer = document.getElementById('table-container');
+            const tableBodyContainer = document.getElementById('tbody-container');
             const paginationContainer = document.getElementById('pagination');
             const navigationContainer = document.getElementById('navigation');
             const limitSelect = document.getElementById('limitSelect');
@@ -504,51 +524,42 @@ a {
                         let startIndex = (currentPage - 1) * rowsPerPage;
                         let endIndex = Math.min(startIndex + rowsPerPage, rows.length);
                         const rowsToShow = rows.slice(startIndex, endIndex + 0); // Include header row
-                        let tableHtml = '';
-                        tableHtml = '<table>';
-                            tableHtml += '<thead>';
-                                tableHtml += '<tr class="header-row">';
-                                    tableHtml += '<th style="text-align:center;">Serial No.</th>'; // Serial number column
-                                    tableHtml += '<th style="text-align:center;">Error Type</th>';
-                                    tableHtml += '<th style="text-align:center;">No. Errors ID(1-32)</th>';
-                                    tableHtml += '<th style="text-align:center;">No. Errors ID(33-64)</th>';
-                                    tableHtml += '<th style="text-align:center;">Total</th>';
-                                    tableHtml += '<th style="text-align:center;">Error Percentage</th>';
-                                tableHtml += '</tr>';
-                            tableHtml += '</thead>';
+                        let tableBodyCon = '';
                             rowsToShow.slice(0).forEach((row, index) => { // Skip the first row (header)
                             const columns = row.split(',');
-                            tableHtml += '<tr>';
+                            tableBodyCon += '<tr>';
                             // Add serial number column
-                            tableHtml += `<td>${startIndex + index + 1}</td>`;
+                            tableBodyCon += `<td>${startIndex + index + 1}</td>`;
                             columns.forEach(column => {
-                                tableHtml += `<td>${column}</td>`;
+                                tableBodyCon += `<td>${column}</td>`;
                             });
-                            tableHtml += '</tr>';
+                            tableBodyCon += '</tr>';
                         });
-                        tableHtml += '</table>';
-                        tableContainer.innerHTML = tableHtml;
+                        tableBodyContainer.innerHTML = tableBodyCon;
 
                         const headerRow = tableContainer.querySelector('.header-row');
-                        let filterHtml = '<tr class="filter-row">';
+                        let filterHtml = '<select class="filter-select"><option value="">Any</option>';
                         headerRow.querySelectorAll('th').forEach((th, colIndex) => {
                             const uniqueValues = Array.from(new Set(rows.map(row => row.split(',')[colIndex])));
-                            filterHtml += `<td align="center"><select class="filter-select"><option value="">search here</option>`;
+                            // filterHtml += `<td align="center"><select class="filter-select"><option value="">search here</option>`;
                             uniqueValues.forEach(value => {
-                                filterHtml += `<option value="${value}">${value}</option>`;
+                                if(colIndex == 0)
+                                {
+                                    filterHtml += `<option value="${value}">${value}</option>`;
+                                }
                             });
-                            filterHtml += `</select></td>`;
+                            
                         });
-                        filterHtml += '</tr>';
+                        filterHtml += `</select>`;
                         filterContainer.innerHTML = filterHtml;
 
                         const filterSelects = filterContainer.querySelectorAll('.filter-select');
-                        filterSelects.forEach((select, colIndex) => {
+                        filterSelects.forEach((select) => {
                             select.addEventListener('change', function() {
                                 const filterValue = this.value.toLowerCase();
                                 const rows = tableContainer.querySelectorAll('tr:not(.header-row)');
                                 rows.forEach(row => {
-                                    const cell = row.querySelectorAll('td')[colIndex];
+                                    const cell = row.querySelectorAll('td')[1];
                                     if (filterValue === "" || cell.textContent.toLowerCase() === filterValue) {
                                         row.style.display = '';
                                     } else {
