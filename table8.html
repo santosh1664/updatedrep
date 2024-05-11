@@ -74,147 +74,142 @@
     }
 
     nav {
-    background-color: #53d1d7;
-    color: var(--text-color);
-    display: flex;
-    position: relative;
-    width: 100%;
-    left: 0%;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0px 0px 0;
+  background-color: #53d1d7;
+  color: var(--text-color);
+  display: flex;
+  position: relative;
+  width: 100%;
+  left: 0%;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0px 0px 0;
 }
 nav > :is(h1, span)
 {
-    width: 34px;
-    height:34px;
-    display: grid;
-    place-items: center;
+  width: 34px;
+  height:34px;
+  display: grid;
+  place-items: center;
 }
 nav span
 {
-    color:#fff;
-    font-size:20px;
+  color:#fff;
+  font-size:20px;
 }
 a {cursor: pointer;}
 .menu
 {
-    margin:0;
-    padding:0;
-    display:flex;
-    justify-content:center;
-    align-items:stretch;
-    height:70px;
-    overflow:hidden;
-    list-style-type:none;
+  margin:0;
+  padding:0;
+  display:flex;
+  justify-content:space-evenly;
+  align-items:stretch;
+  margin-top:30px;
+  height:70px;
+  overflow:hidden;
+  list-style-type:none;
 }
 .menu li
 {
-    display: inline-block;
-    width:200px;
-    color:white;
-    /* transition: all 0.3s ease-in-out; */
+  display: inline-block;
+  width:auto;
+  color:white;
+  /* transition: all 0.3s ease-in-out; */
 }
 .submenu li
 {
-    width:200px;
+  width:auto;
 }
 .menu li:hover .submenu
 {
-    height:86px;
+  height:86px;
 }
 .menu > li:hover > a
 {
-    color:#000000;
+  color:#000000;
 }
 .menu > li:hover > a::before
 {
-    visibility:visible;
-    scale: 1 1;
+  visibility:visible;
+  scale: 1 1;
 }
 .submenu
 {
-    overflow:hidden;
-    position:absolute;
-    /* left:50%; */
-    top:100%;
-    /* transform:translateX(-50%); */
-    display:flex;
-    justify-content:center;
-    align-items:stretch;
-    flex-direction:column;
-    width:auto;
-    background-color: #53d1d7;
-    height:0;
-    line-height:30px;
-    box-sizing:border-box;
-    /* transition:height 0.3s ease-in-out; */
+  overflow:hidden;
+  position:absolute;
+  /* left:50%; */
+  top:100%;
+  /* transform:translateX(-50%); */
+  display:flex;
+  justify-content:center;
+  align-items:stretch;
+  flex-direction:column;
+  width:auto;
+  background-color: #53d1d7;
+  height:0;
+  line-height:30px;
+  box-sizing:border-box;
+  /* transition:height 0.3s ease-in-out; */
 }
 .menu li .submenu a
 {
-    color: #fff;
-    opacity:1;
-    /* transition: opacity 0.25s; */
-    padding: 1px 10px;
-    white-space: nowrap;
+  color: #fff;
+  opacity:1;
+  /* transition: opacity 0.25s; */
+  padding: 1px 10px;
+  white-space: nowrap;
 }
 .menu > li:hover .submenu
 {
-    opacity:1;
+  opacity:1;
 }
 .menu > li .submenu a:hover
 {
-    background:rgb(0 0 0 / 20%);
+  color:black;
 }
 .menu > li a
 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 7px;
-    text-decoration: none;
-    position: relative;
-    height: 100%;
-    color:white;
-    /* transition: 0.3s; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 7px;
+  text-decoration: none;
+  position: relative;
+  height: 50%;
+  color:white;
+  /* transition: 0.3s; */
 }
-.menu > li > a::before
+.menu > li a:hover
 {
-    content: "";
-    position:absolute;
-    width:100%;
-    height:3px;
-    bottom:3px;
-    left:0px;
-    background-color: #53d1d7;
-    /*transition: all 0.2s ease-in-out; */
-    scale: 0 0;
-    visibility: hidden;
+  background-color: #eef4f5;
 }
+
+
+
 ul {
-    list-style-type: none;
-    height: 45px;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    align-content: center;
+  list-style-type: none;
+  height: 45px;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  align-content: center;
 }
 
 li {
-    display: inline-block;
-    margin-right: 20px;
-    margin-left:20px;
+  display: inline-block;
+  margin-right: 20px;
+  margin-left:20px;
 }
 
 a {
-    text-decoration: none;
-    color: #090909;
-    font-size: 16px;
-    display: flex;
-    border-radius: 5px;
-    /* transition: background-color 0.3s; */
-    font-weight: bold;
+  text-decoration: none;
+  color: #090909;
+  font-size: 16px;
+  display: flex;
+  border-radius: 5px;
+  /* transition: background-color 0.3s; */
+  font-weight: bold;
 }
 
     #links {
